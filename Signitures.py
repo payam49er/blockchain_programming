@@ -37,5 +37,10 @@ if __name__ == '__main__':
         print("Bad signature")
 
     #todo:simulate attacks
+    pr_fake,pu_fake = generate_keys()
+    fake_test = verify(message,signature,pu_fake)
+    print(f"fake test is: {fake_test}")
+
+    print(pu.public_numbers())
 
 
