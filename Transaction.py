@@ -29,8 +29,7 @@ class TX:
             if amount < 0:
                 return False
             total_output += amount
-        if total_output > total_input:
-            return False
+
         message = self.__gather()
         for (addr, amount) in self.inputs:
             total_input += amount
@@ -42,6 +41,10 @@ class TX:
                     found = True
                 if not found:
                     return False
+
+        if total_output > total_input:
+            return False
+
         for (addr, amount) in self.outputs:
             if amount < 0:
                 return False
