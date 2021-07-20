@@ -22,9 +22,11 @@ if __name__ == "__main__":
     pr3, pu3 = Signitures.generate_keys()
 
 def serialize_pr_key(private_key, message:str):
+    bmessage = bytes(message,'utf-8')
     pm = private_key.private_bytes(encoding=serialization.Encoding.PEM,
                               format=serialization.PrivateFormat.PKCS8,
-                              encryption_algorithm=serialization.BestAvailableEncryption(f"{bytes(message)}"))
+                              encryption_algorithm=serialization.BestAvailableEncryption(bmessage))
+    print(f"private key: {pm.splitlines()[0]}")
     return pm.splitlines()[0]
 
 
@@ -32,24 +34,25 @@ def serialize_pu_key(public_key):
     pem = public_key.public_bytes(
         encoding=serialization.Encoding.PEM,
         format=serialization.PublicFormat.SubjectPublicKeyInfo)
+    print(f"public key {pem.splitlines()[0]}")
     return pem.splitlines()[0]
 
-    Tx1 = TX()
-    Tx1.add_input(serialize_pu_key(pu1), 3)
-    Tx1.add_output(serialize_pu_key(pu2), 5)
-    Tx1.sign(serialize_pr_key(pr1))
-    print(Tx1.is_valid())
+Tx1 = TX()
+Tx1.add_input(serialize_pu_key(pu1), 3)
+Tx1.add_output(serialize_pu_key(pu2), 5)
+Tx1.sign(pr1)
+print(Tx1.is_valid())
 
-    message = b"some message"
-    sig = Signitures.sign(message,private_key=pr1)
+message = b"some message"
+sig = Signitures.sign(message,private_key=pr1)
 
-    savefile = open('save.dat','wb')
-    pickle.dump(Tx1,savefile)
+savefile = open('save.dat','wb')
+pickle.dump(Tx1,savefile)
 
-    savefile.close()
+savefile.close()
 
-    loadfile = open("save.dat", "rb")
-    newTx = pickle.load(loadfile)
-    print(newTx.is_valid())
+loadfile = open("save.dat", "rb")
+newTx = pickle.load(loadfile)
+print(newTx.is_valid())
 
 
