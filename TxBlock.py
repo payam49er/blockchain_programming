@@ -25,16 +25,35 @@ if __name__ == "__main__":
         pr2, pu2 = Signitures.generate_keys()
         pr3, pu3 = Signitures.generate_keys()
 
+
         def load_serialized_key(data_file):
-             with open(data_file, 'rb') as loadfile:
-                   ser_pu = pickle.load(loadfile)
-                   return ser_pu
+            with open(data_file, 'rb') as loaded_file:
+                ser_pu = pickle.load(loaded_file)
+                return ser_pu
 
 
         # creating some transactions
         Tx1 = TX()
-        Tx1.add_input(pu1, 3)
-        Tx1.add_output(pu2, 5)
+        Tx1.add_input(pu1, 1)
+        Tx1.add_output(pu2, 1)
+        Tx1.sign(pr1)
+        if Tx1.is_valid():
+            print("Success, Tx1 is valid")
+        else:
+            print("ERROR! Tx1 is invalid")
+
+        Tx2 = TX()
+        Tx2.add_input(pu1, 2)
+        Tx2.add_output(pu2, 1)
+        Tx2.add_output(pu3, 1)
+        Tx2.sign(pr1)
+
+        for t in [Tx1,Tx2]:
+            if t.is_valid():
+                print("Success! Tx is valid")
+            else:
+                print("ERROR: Tx is invalid")
+
         message = b"simple message"
         # Tx1.sign(serialize_pr_key(pr1, message))
         print(Tx1.is_valid())
@@ -52,10 +71,10 @@ if __name__ == "__main__":
         print(Tx1.is_valid())
 
         message = b"some message"
-        sig = Signitures.sign(message,private_key=pr1)
+        sig = Signitures.sign(message, private_key=pr1)
 
-        savefile = open('save.dat','wb')
-        pickle.dump(Tx1,savefile)
+        savefile = open('save.dat', 'wb')
+        pickle.dump(Tx1, savefile)
 
         savefile.close()
 
@@ -70,5 +89,5 @@ if __name__ == "__main__":
         print(loaded_pu)
 
     except Exception as e:
-            print(f"Exception has occured: {e}")
-            print(e.__traceback__.tb_lineno)
+        print(f"Exception has occured: {e}")
+        print(e.__traceback__.tb_lineno)

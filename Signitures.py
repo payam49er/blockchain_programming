@@ -22,12 +22,12 @@ def sign(message, private_key):
                                                       salt_length=padding.PSS.MAX_LENGTH), hashes.SHA256())
     return signature
 
-def serialize_pr_key(private_key, message: str):
-        pm = private_key.private_bytes(encoding=serialization.Encoding.PEM,
-                                       format=serialization.PrivateFormat.PKCS8,
-                                       encryption_algorithm=serialization.BestAvailableEncryption(bytes(message)))
-        return pm.splitlines()[0]
 
+def serialize_pr_key(private_key, message: str):
+    pm = private_key.private_bytes(encoding=serialization.Encoding.PEM,
+                                   format=serialization.PrivateFormat.PKCS8,
+                                   encryption_algorithm=serialization.BestAvailableEncryption(bytes(message)))
+    return pm.splitlines()[0]
 
 
 def verify(message, signature, public_key):
