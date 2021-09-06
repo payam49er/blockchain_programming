@@ -60,6 +60,21 @@ class TX:
         return data
 
 
+    def __repr__(self):
+        reprstr = "INPUTS:\n"
+        for i in self.inputs:
+            reprstr = f"{reprstr}{str(amt)}from{str(addr)}\n"
+        reprstr = f"{reprstr}OUTPUTS:\n"
+        for addr, amt in self.outputs:
+            reprstr =  f"{reprstr}{str(amt)}to{str(addr)}\n"
+        reprstr = f"{reprstr}REQD:\n"
+        for r in self.reqd:
+            reprstr = f"{reprstr}{str(r)}\n"
+        for s in self.sigs:
+            reprstr = f"{reprstr}{str(s)}\n"
+        reprstr = f"{reprstr}END\n"
+        return reprstr
+
 if __name__ == "__main__":
     pr1, pu1 = Signitures.generate_keys()
     pr2, pu2 = Signitures.generate_keys()

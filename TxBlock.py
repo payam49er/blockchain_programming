@@ -6,16 +6,16 @@ import pickle
 
 class TxBlock(CBlock):
     def __init__(self, previousBlock: CBlock):
-        self.previous_block = previousBlock
-        self.incoming_tx = []
+        super(TxBlock,self).__init__([],previous_block)
 
     def addTx(self, Tx_in):
         self.incoming_tx.append(Tx_in)
 
-    def is_valid(self):
-        previous_hash = self.previous_block.previous_hash
-        print("False")
 
+    def is_valid(self):
+        if not super(TxBlock, self).is_valid():
+            return False
+        return True
 
 if __name__ == "__main__":
     try:
@@ -71,8 +71,6 @@ if __name__ == "__main__":
         print(Tx1.is_valid())
 
         message = b"some message"
-        sig = Signitures.sign(message, private_key=pr1)
-
         savefile = open('save.dat', 'wb')
         pickle.dump(Tx1, savefile)
 

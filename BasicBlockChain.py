@@ -27,6 +27,13 @@ class CBlock:
         return self.__hash__
 
 
+    def is_valid(self):
+        if self.previous_block == None:
+            return True
+        return self.previous_block.compute_hash() == self.current_block_hash()
+
+
+
 class someClass():
     num = numbers
     def __init__(self, mystring):
