@@ -5,17 +5,17 @@ import pickle
 
 
 class TxBlock(CBlock):
-    def __init__(self, previousBlock: CBlock):
-        super(TxBlock,self).__init__([],previous_block)
-
-    def addTx(self, Tx_in):
-        self.incoming_tx.append(Tx_in)
-
+    def __init__(self, previous_block: CBlock):
+        super(TxBlock, self).__init__([], previous_block)
 
     def is_valid(self):
         if not super(TxBlock, self).is_valid():
             return False
+        for tx in self.data:
+            if not tx.is_valid():
+                return False
         return True
+
 
 if __name__ == "__main__":
     try:
@@ -48,7 +48,7 @@ if __name__ == "__main__":
         Tx2.add_output(pu3, 1)
         Tx2.sign(pr1)
 
-        for t in [Tx1,Tx2]:
+        for t in [Tx1, Tx2]:
             if t.is_valid():
                 print("Success! Tx is valid")
             else:
@@ -71,10 +71,10 @@ if __name__ == "__main__":
         print(Tx1.is_valid())
 
         message = b"some message"
-        savefile = open('save.dat', 'wb')
-        pickle.dump(Tx1, savefile)
+        save_file = open('save.dat', 'wb')
+        pickle.dump(Tx1, save_file)
 
-        savefile.close()
+        save_file.close()
 
         loadfile = open("save.dat", "rb")
         newTx = pickle.load(loadfile)
@@ -87,5 +87,6 @@ if __name__ == "__main__":
         print(loaded_pu)
 
     except Exception as e:
-        print(f"Exception has occured: {e}")
+        print(f"Exception has occurred: {e}")
+        raise e
         print(e.__traceback__.tb_lineno)
