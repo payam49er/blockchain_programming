@@ -86,6 +86,12 @@ if __name__ == "__main__":
         loaded_pu = load_serialized_key("save.dat")
         print(loaded_pu)
 
+        #test mining reward
+        B3
+
+
+
+
     except Exception as e:
         print(f"Exception has occurred: {e}")
         raise e
