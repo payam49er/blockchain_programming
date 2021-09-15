@@ -16,6 +16,9 @@ class TxBlock(CBlock):
                 return False
         return True
 
+    def add_tx(self, tx_in):
+        self.data.append(tx_in)
+
 
 if __name__ == "__main__":
     try:
@@ -86,8 +89,28 @@ if __name__ == "__main__":
         loaded_pu = load_serialized_key("save.dat")
         print(loaded_pu)
 
-        #test mining reward
-        B3
+        # Test mining rewards and tx fees
+        Tx3 = TX()
+        Tx3.add_input(pu3, 1.1)
+        Tx3.add_output(pu1, 1)
+        Tx3.sign(pr3)
+
+        root = TxBlock(None)
+        root.add_tx(Tx1)
+        B1 = TxBlock(root)
+        B1.add_tx(Tx1)
+        B1.add_tx(Tx2)
+
+        pr4,pu4 = Signitures.generate_keys()
+        B2 = TxBlock(B1)
+        Tx5 = TX()
+        Tx5.add_input(pu3, 1)
+        Tx5.add_output(pu1, 100)
+        Tx5.sign(pr3)
+        B2.add_tx(Tx5)
+
+
+
 
 
 

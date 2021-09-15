@@ -5,7 +5,7 @@ from cryptography.hazmat.primitives import hashes
 
 
 class CBlock:
-    data = None
+    data:[] = None
     previous_hash = None
     previous_block = None
     __hash__ = None
